@@ -1,5 +1,5 @@
 import React from "react";
-import Card from './Card';
+import Card from './Card.js';
 
 // the CardList receives all robots as prop
 const CardList = ( { robots } ) => {
