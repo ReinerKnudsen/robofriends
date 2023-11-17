@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import CardList from "./CardList.js";
-import { robots } from './robots.js';
+//import { robots } from './robots.js';
 import SearchBox from './SearchBox.js';
 import './App.css';
 
@@ -13,9 +13,17 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-		robots: robots,
+		robots: [],
 		searchfield: ''
 		}
+	}
+
+	// see: https://react.dev/reference/react/Component
+	// componentDidMount is triggered when the component was mounted into the DOM
+	componentDidMount(){
+		fetch('https://jsonplaceholder.typicode.com/users')
+		.then(response => response.json())
+		.then(users => this.setState({ robots: users }))
 	}
 
 	// We need this stupid syntax to make sure that "this" refers not to the calling input element,
