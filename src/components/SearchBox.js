@@ -1,6 +1,5 @@
 import React from "react";
 
-
 // Every time the input changes (onChange), call the "searchChange" function -> App
 const SearchBox = ( { searchfiled, searchChange }) => {
 	return(
