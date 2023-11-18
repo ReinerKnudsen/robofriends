@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import CardList from "./CardList.js";
+import CardList from "../components/CardList.js";
 //import { robots } from './robots.js';
-import SearchBox from './SearchBox.js';
+import SearchBox from '../components/SearchBox.js';
 import './App.css';
+import Scroll from '../components/Scroll.js';
 
 // In order to use states, we have to change our logic from function to class
 // States usually live in the parent component
@@ -45,7 +46,9 @@ class App extends Component {
 			<div className='tc'>
 				<h1 className='f1'>RoboFriends</h1>
 				<SearchBox searchChange = {this.onSearchChange}/>
-				<CardList robots = {filteredRobots} />
+				<Scroll>
+					<CardList robots = {filteredRobots} />
+				</Scroll>
 			</div>
 		);
 	}
