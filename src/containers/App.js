@@ -34,7 +34,6 @@ class App extends Component {
 		// Event.target - is the input filed, .value is the text entered
 		// this is where we set the searchfield
 		this.setState({searchfield: event.target.value});
-
 	}
 
 	// We pass the onSearchChange method of this object as state to the SearchBox
