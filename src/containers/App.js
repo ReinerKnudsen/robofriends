@@ -15,7 +15,9 @@ function App() {
 	// We add an additional parameter [] which tells the hook to only run, wenn this parameter
 	// changes. Since [] doesn't change, it will only run once!
 	useEffect( () => {
+		// fetch opens an asyncronous communication path to the URL
 		fetch('https://jsonplaceholder.typicode.com/users')
+		// fetch issues a promise, which we need a _then_ for
 			.then(response => response.json())
 			.then(users => {setRobots(users)});
 	},[])
