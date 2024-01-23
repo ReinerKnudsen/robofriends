@@ -4,3 +4,7 @@ export const setSearchField = (text) => ({
   type: CHANGE_SEARCH_FIELD,
   paylod: text,
 });
+
+export const requestRobots = () => {
+  return {};
+};
