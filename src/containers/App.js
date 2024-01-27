@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setSearchField } from '../actions';
+import { setSearchField, requestRobots } from '../actions';
 
 import CardList from '../components/CardList.js';
-//import { robots } from './robots.js';
 import SearchBox from '../components/SearchBox.js';
 import Scroll from '../components/Scroll.js';
 import './App.css';
@@ -12,7 +11,10 @@ import './App.css';
 const mapStateToProps = (state) => {
   return {
     // this comes from the reducer
-    searchField: state.searchField,
+    searchField: state.searchRobots.searchField,
+    robots: state.requestRobots.robots,
+    isPending: state.requestRobots.isPending,
+    error: state.requestRobots.error,
   };
 };
 
@@ -20,39 +22,35 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // dispatch the input of the user in the search field
     onSearchChange: (event) => {
-      console.log(event.target.value);
       dispatch(setSearchField(event.target.value));
     },
+    onRequestRobots: () => dispatch(requestRobots()),
   };
 };
 
-function App({ searchField, onSearchChange }) {
-  const [robots, setRobots] = useState([]);
+class App extends Component {
+  componentDidMount() {
+    this.props.onRequestRobots();
+  }
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      // fetch issues a promise, which we need a _then_ for
-      .then((response) => response.json())
-      .then((users) => {
-        setRobots(users);
-      });
-  }, []);
+  render() {
+    const { searchField, onSearchChange, robots, isPending } = this.props;
+    const filteredRobots = robots.filter((robot) => {
+      return robot.name.toLowerCase().includes(searchField.toLowerCase());
+    });
 
-  const filteredRobots = robots.filter((robot) => {
-    return robot.name.toLowerCase().includes(searchField.toLowerCase());
-  });
-
-  return !robots.length ? (
-    <h1>Loading...</h1>
-  ) : (
-    <div className='tc'>
-      <h1 className='f1'>RoboFriends</h1>
-      <SearchBox searchChange={onSearchChange} />
-      <Scroll>
-        <CardList robots={filteredRobots} />
-      </Scroll>
-    </div>
-  );
+    return isPending ? (
+      <h1>Loading...</h1>
+    ) : (
+      <div className='tc'>
+        <h1 className='f1'>RoboFriends</h1>
+        <SearchBox searchChange={onSearchChange} />
+        <Scroll>
+          <CardList robots={filteredRobots} />
+        </Scroll>
+      </div>
+    );
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

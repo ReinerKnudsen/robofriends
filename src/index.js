@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
+import { thunk } from 'redux-thunk';
 
-import { searchRobots } from './reducers.js';
+import { searchRobots, requestRobots } from './reducers.js';
 import App from './containers/App.js';
 
 import './index.css';
@@ -12,7 +13,8 @@ import 'tachyons';
 import reportWebVitals from './reportWebVitals';
 
 const logger = createLogger();
-const store = createStore(searchRobots, applyMiddleware(logger));
+const rootReducer = combineReducers({ searchRobots, requestRobots });
+const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
